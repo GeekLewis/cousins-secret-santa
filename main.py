@@ -66,6 +66,16 @@ def check_spelling(field: str, spelling: str) -> bool:
 
 
 def get_email(who: str) -> str:
+    '''
+    Asks the user to enter an email address with format validation and 
+    spelling confirmation.
+    
+    :param who: Description of whose email is being requested 
+    (e.g., "Child", "Parent")
+    :type who: str
+    :return: E-mail address as a string
+    :rtype: str
+    '''
     email:str = ""
     while True:
         email = str(input(f"\nEnter {who}'s E-mail: "))
@@ -83,6 +93,15 @@ def get_email(who: str) -> str:
 
 
 def check_email_format(email: str) -> bool:
+    '''
+    Validates the format of an email address using a regular expression.
+    It only checks for basic structure and does not guarantee deliverability.
+
+    :param email: The email address to validate
+    :type email: str
+    :return: True if the email is valid, False otherwise
+    :rtype: bool
+    '''
     pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     if re.fullmatch(pattern, email):
         return True
