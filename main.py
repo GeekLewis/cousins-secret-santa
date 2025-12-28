@@ -7,7 +7,7 @@ import re
 @dataclass
 class UserPrefs:
     email_output: bool = True
-    notify_chiild: bool = True
+    notify_child: bool = True
     notify_parent: bool = True
 
 
@@ -120,8 +120,24 @@ def check_email_format(email: str) -> bool:
 
 def add_cousin(prefs: UserPrefs) -> Cousin:
     childs_name = get_name("Child")
-    if UserPrefs
-    pass
+    if prefs.notify_child:
+        childs_email = get_email("Child")
+    else:
+        childs_email = None
+    parents_name = get_name("Parent")
+    if prefs.notify_parent:
+        parents_email = get_email("Parent")
+    else:
+        parents_email = None
+    new_cousin = Cousin(
+        kids_name=childs_name,
+        parents_name=parents_name,
+        kids_email=childs_email,
+        parents_email=parents_email,
+        age=None
+    )
+    
+    
 
 
 def main():
