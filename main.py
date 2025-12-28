@@ -1,5 +1,14 @@
+from dataclasses import dataclass
 import readchar
+
 import re
+
+
+@dataclass
+class UserPrefs:
+    email_output: bool = True
+    notify_chiild: bool = True
+    notify_parent: bool = True
 
 
 class Cousin:
@@ -109,22 +118,17 @@ def check_email_format(email: str) -> bool:
         return False
 
 
-def add_cousin() -> object:
+def add_cousin(prefs: UserPrefs) -> Cousin:
+    childs_name = get_name("Child")
+    if UserPrefs
     pass
 
 
 def main():
     print("Hello from cousins-secret-santa!")
-    family = []
+    user_prefs = UserPrefs()
+    family = {}
     print(family)
-    kids_name = get_name("Child")
-    print(f"\n{kids_name}")
-    kids_email = get_email("Child")
-    print(f"\n{kids_name}'s email is {kids_email}")
-    parents_name = get_name("Parent")
-    print(f"\n{kids_name}'s parent is {parents_name}")
-    parents_email = get_email("Parent")
-    print(f"\n{parents_name}'s email is {parents_email}")
 
 
 if __name__ == "__main__":
