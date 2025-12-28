@@ -14,8 +14,9 @@ class UserPrefs:
 class Cousin:
     def __init__(
             self, kids_name: str, parents_name: str, 
-            kids_email: str | None, parents_email: str | None, 
-            age: int | None) -> None:
+            kids_email: str | None = None, 
+            parents_email: str | None = None, 
+            age: int | None = None) -> None:
         self.kids_name = kids_name
         self.parents_name = parents_name
         self.kids_email = kids_email
