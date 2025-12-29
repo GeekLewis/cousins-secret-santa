@@ -67,6 +67,7 @@ def check_spelling(field: str, spelling: str) -> bool:
             print(f"\nConfirm the {field} is {spelling}")
             print("Is this correct? (Y/N)", end='', flush=True)
             char = readchar.readchar().lower()
+            print("\n\n")
             if char == "y":
                 return True
             elif char == "n":
@@ -119,7 +120,7 @@ def check_email_format(email: str) -> bool:
         return False
 
 
-def add_cousin(prefs: UserPrefs) -> Cousin:
+def get_cousin(prefs: UserPrefs) -> Cousin:
     childs_name = get_name("Child")
     if prefs.notify_child:
         childs_email = get_email("Child")
@@ -137,15 +138,24 @@ def add_cousin(prefs: UserPrefs) -> Cousin:
         parents_email=parents_email,
         age=None
     )
+    return new_cousin
     
     
+def add_cousin(family: dict, prefs: UserPrefs) -> dict:
+    new_cousin = get_cousin(prefs)
+    family[new_cousin.kids_name] = new_cousin
+    return family
 
 
 def main():
     print("Hello from cousins-secret-santa!")
     user_prefs = UserPrefs()
     family = {}
-    print(family)
+    print("\n" + str(family)
+    family = add_cousin(family, user_prefs)
+    print("\n" + str(family)
+    family = add_cousin(family, user_prefs)
+    print("\n" + str(family)
 
 
 if __name__ == "__main__":
