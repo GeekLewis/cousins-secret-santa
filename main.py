@@ -13,19 +13,28 @@ class UserPrefs:
 
 class Cousin:
     def __init__(
-            self, kids_name: str, parents_name: str, 
-            kids_email: str | None = None, 
-            parents_email: str | None = None, 
+            self, childs_name: str, parents_name: str, 
+            childs_email: str | None = None, 
             age: int | None = None) -> None:
-        self.kids_name = kids_name
+        self.childs_name = childs_name
         self.parents_name = parents_name
-        self.kids_email = kids_email
-        self.parents_email = parents_email
+        self.childs_email = childs_email
         self.age = age
         self.gift_for : str | None = None
 
 
-def get_name(who: str) -> str:
+class Parents:
+    def __init__(
+            self, parents_name: str, parents_email: str | None = None) -> None:
+        self.parents_name = parents_name
+        self.parents_email = parents_email
+        self.children : list[str] = []
+
+    def add_child(self, child_name: str) -> None:
+        self.children.append(child_name)
+
+
+def get_name(who: str) -> str | None:
     '''
     Prompts the user to enter a person's name with spelling confirmation.
     
@@ -39,10 +48,10 @@ def get_name(who: str) -> str:
     '''
     name: str = ""
     while True:
+        print("(Leave blank to cancel)\n")
         name:str = str(input(f"\nEnter {who}'s Name: "))
         if not name:
-            print("Name can't be empty.\n")
-            continue
+            return None
         elif check_spelling(f"{who}'s name", name) == True:
             return name
         else:
@@ -120,43 +129,59 @@ def check_email_format(email: str) -> bool:
         return False
 
 
-def get_cousin(prefs: UserPrefs) -> Cousin:
+def get_cousin(prefs: UserPrefs, parents_name: str) -> Cousin | None:
     childs_name = get_name("Child")
+    if not childs_name:
+        return None
     if prefs.notify_child:
         childs_email = get_email("Child")
     else:
         childs_email = None
-    parents_name = get_name("Parent")
-    if prefs.notify_parent:
-        parents_email = get_email("Parent")
-    else:
-        parents_email = None
     new_cousin = Cousin(
-        kids_name=childs_name,
+        childs_name=childs_name,
         parents_name=parents_name,
-        kids_email=childs_email,
-        parents_email=parents_email,
+        childs_email=childs_email,
         age=None
     )
     return new_cousin
     
     
-def add_cousin(family: dict, prefs: UserPrefs) -> dict:
-    new_cousin = get_cousin(prefs)
-    family[new_cousin.kids_name] = new_cousin
+def add_cousin(family: dict, prefs: UserPrefs, parents_name: str) -> dict:
+    new_cousin = get_cousin(prefs, parents_name)
+    if not new_cousin:
+        return family
+    family[new_cousin.childs_name] = new_cousin
     return family
+
+
+def get_family(families: dict, prefs: UserPrefs) -> dict:
+    while True:
+        parents_name = get_name("Parent")
+        if not parents_name:
+            return families
+        elif parents_name in families:
+            print(f"\nFamily for {parents_name} already exists.\n")
+            continue
+        break
+    if prefs.notify_parent:
+        parents_email = get_email("Parent")
+    else:
+        parents_email = None
+    new_parents = Parents(
+        parents_name=parents_name,
+        parents_email=parents_email
+    )
+    families[parents_name] = new_parents
+    return families
 
 
 def main():
     print("Hello from cousins-secret-santa!")
     user_prefs = UserPrefs()
-    family = {}
-    print("\n" + str(family)
-    family = add_cousin(family, user_prefs)
-    print("\n" + str(family)
-    family = add_cousin(family, user_prefs)
-    print("\n" + str(family)
-
+    families = {}
+    cousins = {}
+    
+    
 
 if __name__ == "__main__":
     main()
