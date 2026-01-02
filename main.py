@@ -12,6 +12,16 @@ class UserPrefs:
 
 
 class Cousin:
+    '''
+    Class representing a cousin in the Secret Santa system.
+    Attributes:
+        childs_name (str): The name of the child.
+        parents_name (str): The name of the parent.
+        childs_email (str | None): The email address of the child (optional).
+        age (int | None): The age of the child (optional).
+        gift_for (str | None): The name of the person the child is gifting to
+            this is set later in the process.
+    '''
     def __init__(
             self, childs_name: str, parents_name: str, 
             childs_email: str | None = None, 
@@ -24,6 +34,14 @@ class Cousin:
 
 
 class Parents:
+    '''
+    Class defining a parent to represent a family household in the 
+    Secret Santa system.
+    Attributes:
+        parents_name (str): The name of the parent.
+        parents_email (str | None): The email address of the parent (optional).
+        children (list[str]): A list of names of the children in the family.
+    '''
     def __init__(
             self, parents_name: str, parents_email: str | None = None) -> None:
         self.parents_name = parents_name
@@ -130,6 +148,17 @@ def check_email_format(email: str) -> bool:
 
 
 def get_cousin(prefs: UserPrefs, parents_name: str) -> Cousin | None:
+    '''
+    Function to gather information about a cousin (child) and create
+    a Cousin object.
+
+    :param prefs: User preferences for notifications
+    :type prefs: UserPrefs
+    :param parents_name: The name of the parent
+    :type parents_name: str
+    :return: A new Cousin object or None if cancelled
+    :rtype: Cousin | None
+    '''
     childs_name = get_name("Child")
     if not childs_name:
         return None
@@ -155,6 +184,17 @@ def add_cousin(family: dict, prefs: UserPrefs, parents_name: str) -> dict:
 
 
 def get_family(families: dict, prefs: UserPrefs) -> dict:
+    '''
+    Function to gather information about a family (parents) and create
+    a Parents object.
+    
+    :param families: Dictionary of existing families
+    :type families: dict
+    :param prefs: User preferences for notifications
+    :type prefs: UserPrefs
+    :return: Updated dictionary of families
+    :rtype: dict[str, Parents]
+    '''
     while True:
         parents_name = get_name("Parent")
         if not parents_name:
