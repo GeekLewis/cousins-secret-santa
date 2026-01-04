@@ -147,7 +147,11 @@ def check_email_format(email: str) -> bool:
         return False
 
 
-def get_cousin(prefs: UserPrefs, parents_name: str) -> Cousin | None:
+def add_cousin(
+        cousins: dict[str, Cousin], 
+        prefs: UserPrefs, 
+        parents_name: str
+        ) -> dict[str, Cousin] | None:
     '''
     Function to gather information about a cousin (child) and create
     a Cousin object.
@@ -161,7 +165,7 @@ def get_cousin(prefs: UserPrefs, parents_name: str) -> Cousin | None:
     '''
     childs_name = get_name("Child")
     if not childs_name:
-        return None
+        return cousins
     if prefs.notify_child:
         childs_email = get_email("Child")
     else:
@@ -172,18 +176,12 @@ def get_cousin(prefs: UserPrefs, parents_name: str) -> Cousin | None:
         childs_email=childs_email,
         age=None
     )
-    return new_cousin
-    
-    
-def add_cousin(family: dict, prefs: UserPrefs, parents_name: str) -> dict:
-    new_cousin = get_cousin(prefs, parents_name)
-    if not new_cousin:
-        return family
-    family[new_cousin.childs_name] = new_cousin
-    return family
+    cousins[new_cousin.childs_name] = new_cousin
+    return cousins
 
 
-def get_family(families: dict, prefs: UserPrefs) -> dict:
+def add_family(
+        families: dict[str, Parents], prefs: UserPrefs) -> dict[str, Parents]:
     '''
     Function to gather information about a family (parents) and create
     a Parents object.
@@ -220,8 +218,7 @@ def main():
     user_prefs = UserPrefs()
     families = {}
     cousins = {}
-    
-    
+        
 
 if __name__ == "__main__":
     main()
