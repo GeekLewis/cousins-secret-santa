@@ -149,23 +149,33 @@ def check_email_format(email: str) -> bool:
 
 def add_cousin(
         cousins: dict[str, Cousin], 
+        families: dict[str, Parents],
         prefs: UserPrefs, 
         parents_name: str
-        ) -> dict[str, Cousin] | None:
+        ) -> tuple[dict[str, Cousin], dict[str, Parents]]:
     '''
     Function to gather information about a cousin (child) and create
     a Cousin object.
 
+    :param cousins: Dictionary of existing cousins
+    :type cousins: dict
+    :param families: Dictionary of existing families
+    :type families: dict
     :param prefs: User preferences for notifications
     :type prefs: UserPrefs
     :param parents_name: The name of the parent
     :type parents_name: str
-    :return: A new Cousin object or None if cancelled
-    :rtype: Cousin | None
+    :return: a tuple containing updated dictionaries of cousins and families
+    :rtype: tuple[dict[str, Cousin], dict[str, Parents]]
     '''
-    childs_name = get_name("Child")
-    if not childs_name:
-        return cousins
+    while True:
+        childs_name = get_name("Child")
+        if not childs_name:
+            return (cousins, families)
+        if childs_name in cousins:
+            print(f"\nThere is already a {childs_name} in the list.\n")
+            continue
+        break
     if prefs.notify_child:
         childs_email = get_email("Child")
     else:
@@ -176,8 +186,9 @@ def add_cousin(
         childs_email=childs_email,
         age=None
     )
+    families[parents_name].add_child(childs_name)
     cousins[new_cousin.childs_name] = new_cousin
-    return cousins
+    return (cousins, families)
 
 
 def add_family(
