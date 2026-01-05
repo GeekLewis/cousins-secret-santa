@@ -1,8 +1,11 @@
 from dataclasses import dataclass
+from random import choice
 import readchar
 
 import re
 
+# For test data generation - uncomment when needed
+import testdata
 
 @dataclass
 class UserPrefs:
@@ -224,11 +227,47 @@ def add_family(
     return families
 
 
+def list_families(families: dict[str, Parents]) -> None:
+    '''
+    Prints a list of all families and their children.
+    
+    :param families: Dictionary of families
+    :type families: dict[str, Parents]
+    '''
+    print("\nFamilies:")
+    for parents_name, parents in families.items():
+        print(f"\nParent: {parents_name}")
+        if parents.children:
+            print("  Children:")
+            for child in parents.children:
+                print(f"    - {child}")
+        else:
+            print("  No children added yet.")
+    print("\n")
+
+
+def draw_names(cousins: dict[str, Cousin]) -> None:
+    '''
+    Placeholder function for drawing names for Secret Santa.
+    
+    :param cousins: Dictionary of cousins
+    :type cousins: dict[str, Cousin]
+    '''
+    print("Drawing names... (functionality not yet implemented)")
+
+
+
 def main():
     print("Hello from cousins-secret-santa!")
     user_prefs = UserPrefs()
-    families = {}
-    cousins = {}
+    
+    # Uncomment the following lines to generate test data
+    cousins, families = testdata.create_test_data()
+    list_families(families)
+
+    #families = {}
+    #cousins = {}
+
         
 
 if __name__ == "__main__":
